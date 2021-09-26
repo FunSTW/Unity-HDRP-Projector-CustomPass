@@ -55,6 +55,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Float_1: 0
     - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 1
@@ -72,7 +73,9 @@ Material:
     - _DstBlend: 1
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1
-    - _Float: 0
+    - _FarPlane: 4.42
+    - _Float: 1
+    - _NearPlane: 2.25
     - _OpaqueCullMode: 2
     - _RenderQueueType: 4
     - _SrcBlend: 1

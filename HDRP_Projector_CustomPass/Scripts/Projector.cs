@@ -74,34 +74,21 @@ public class Projector : MonoBehaviour
 
     private void Update() {
         if(!material) return;
+        /*Projector Matrix*/
+        //MV  Convert Pixels from World space to View space. (TRS = Camera(View) Position => World Position)
+        var world2View = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(aspectRatio, 1.0f, 1.0f)).inverse;
+        //P   Calculate Custom Projection Matrix.
+        var projection = Matrix4x4.Perspective(fieldOfView, 1.0f, nearClipPlane, farClipPlane);
+        //MVP MV¡PP.
+        var projectorMatrix = projection * world2View;
 
+        /*Projector Clip Matrix*/
         //MV
-        var local2World = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(aspectRatio, 1.0f, 1.0f));
-        print(2 + transform.localToWorldMatrix.ToString("F2"));
-        var world2Local = local2World.inverse;
+        var clip_world2View = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(1.0f, 1.0f, 1.0f)).inverse;
         //P
-        var projectorMatrix = Matrix4x4.Perspective(fieldOfView, 1.0f, nearClipPlane, farClipPlane);
-        projectorMatrix *= world2Local;
-
-        //MV
-        var modelClipMatrix = Matrix4x4.identity;
-        modelClipMatrix.SetColumn(3, new Vector4(-nearClipPlane, 0, -nearClipPlane, 1));
-        modelClipMatrix *= world2Local;
-
-        //V
-        var viewClipMatrix = Matrix4x4.identity;
-        viewClipMatrix.SetRow(0,transform.forward);
-        viewClipMatrix.SetRow(1,transform.up);
-        viewClipMatrix.SetRow(2,transform.forward);
-
-        //P
-        var orthoMatrix = Matrix4x4.identity;
-        float size = 1 / (farClipPlane - nearClipPlane);
-        orthoMatrix.m00 = size;
-        orthoMatrix.m11 = size;
-        orthoMatrix.m22 = size;
-
-        var projectorClipMatrix = orthoMatrix * viewClipMatrix* modelClipMatrix;
+        var orthoMatrix = Matrix4x4.Ortho(-1, 1, -1, 1, nearClipPlane, farClipPlane);
+        //MVP MV¡PP.
+        var projectorClipMatrix = orthoMatrix * clip_world2View;
 
         material.SetTexture("_MainTex", projectionImage);
         material.SetMatrix("_ProjectionMatrix", projectorMatrix );
