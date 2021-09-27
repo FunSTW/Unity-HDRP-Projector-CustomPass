@@ -84,10 +84,10 @@ public class Projector : MonoBehaviour
         var projectorMatrix = projection * world2View;
 
         /*Projector Clip Matrix (Ortho for Image Attenuate)*/
-        //MV  Convert Pixels from World space to View space. (TRS = Camera(View) Position => World Position)
-        //P   Calculate Ortho Matrix.
+        //P   Calculate Ortho Matrix. (Filp Z)
         //MVP MV * P.
         var orthoClipMatrix = Matrix4x4.Ortho(-1, 1, -1, 1, nearClipPlane, farClipPlane);
+        orthoClipMatrix[2, 2] = -orthoClipMatrix[2, 2];
         var projectorClipMatrix = orthoClipMatrix * world2View;
         
         //Apply
