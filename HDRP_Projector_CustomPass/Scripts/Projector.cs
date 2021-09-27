@@ -74,22 +74,23 @@ public class Projector : MonoBehaviour
 
     private void Update() {
         if(!material) return;
-        /*Projector Matrix*/
+        
+        /*Projector Matrix (Perspective for Image Projector)*/
         //MV  Convert Pixels from World space to View space. (TRS = Camera(View) Position => World Position)
-        var world2View = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(aspectRatio, 1.0f, 1.0f)).inverse;
         //P   Calculate Custom Projection Matrix.
+        //MVP MV * P.
+        var world2View = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(aspectRatio, 1.0f, 1.0f)).inverse;
         var projection = Matrix4x4.Perspective(fieldOfView, 1.0f, nearClipPlane, farClipPlane);
-        //MVP MV¡PP.
         var projectorMatrix = projection * world2View;
 
-        /*Projector Clip Matrix*/
-        //MV
-        var clip_world2View = Matrix4x4.TRS(transform.position, transform.rotation, new Vector3(1.0f, 1.0f, 1.0f)).inverse;
-        //P
-        var orthoMatrix = Matrix4x4.Ortho(-1, 1, -1, 1, nearClipPlane, farClipPlane);
-        //MVP MV¡PP.
-        var projectorClipMatrix = orthoMatrix * clip_world2View;
-
+        /*Projector Clip Matrix (Ortho for Image Attenuate)*/
+        //MV  Convert Pixels from World space to View space. (TRS = Camera(View) Position => World Position)
+        //P   Calculate Ortho Matrix.
+        //MVP MV * P.
+        var orthoClipMatrix = Matrix4x4.Ortho(-1, 1, -1, 1, nearClipPlane, farClipPlane);
+        var projectorClipMatrix = orthoClipMatrix * world2View;
+        
+        //Apply
         material.SetTexture("_MainTex", projectionImage);
         material.SetMatrix("_ProjectionMatrix", projectorMatrix );
         material.SetMatrix("_ProjectionClipMatrix",projectorClipMatrix);
