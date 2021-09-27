@@ -1516,7 +1516,7 @@
     "m_Group": {
         "m_Id": ""
     },
-    "m_Name": "Projection_Culling (Custom Function)",
+    "m_Name": "Projection_UV_Culling (Custom Function)",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -1543,7 +1543,7 @@
         "m_SerializableColors": []
     },
     "m_SourceType": 1,
-    "m_FunctionName": "Projection_Culling",
+    "m_FunctionName": "Projection_UV_Culling",
     "m_FunctionSource": "",
     "m_FunctionBody": "Visible = true;\nif (UV.x <= 0 || UV.y <= 0 || UV.x >= 1 || UV.y >= 1)\r{\n      Visible = false;\n}"
 }
