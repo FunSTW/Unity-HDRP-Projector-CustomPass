@@ -5,7 +5,7 @@ Unity HDRP Projector in Custom Pass
 ![image](https://github.com/FunsTW/HDRP_Projector_CustomPass/blob/main/ShaderGraph.png?raw=true)
 
 ## System requirements
-* Unity HDRP ( need `Custom Pass Volume (Script)` )
+* Unity HDRP 2021.2 *( Maybe just need to have "custom pass volume (script)" to execute it. )(?)*
 
 ![image](https://github.com/FunsTW/HDRP_Projector_CustomPass/blob/main/ProjectorScript.jpg?raw=true)
 
